@@ -1,6 +1,8 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt"
+import { response } from "express";
 import jwt from "jsonwebtoken"
+import Product from "../models/product.js";
 
 export function createUser(req,res){
 
@@ -74,4 +76,42 @@ export function createUser(req,res){
              }
         }
      )
+}
+
+export function isAdmin(req){
+    if(req.user==null){
+        return false;
+    }
+    if(req.user.role=="admin"){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+export async function deleteProduct(req,res) {
+    if(!isAdmin(req)){
+         res.status(403).json({
+            message:"Access denied.Admins only"
+           
+        })
+        return; 
+    }
+    try{
+       const productId=req.params.productId;
+       
+       await Product.deleteOne({
+        productId:productId
+       })
+       res.json({
+        message:"Product deleted successfully"
+       })
+       
+    }catch{
+       console.error("Error deleting product:",error);
+       res.status(500).json({
+        message:"Failed to delete products"
+       })
+       return;
+    }
 }
