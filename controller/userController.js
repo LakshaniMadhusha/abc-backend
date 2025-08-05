@@ -3,6 +3,9 @@ import bcrypt from "bcrypt"
 import { response } from "express";
 import jwt from "jsonwebtoken"
 import Product from "../models/product.js";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 export function createUser(req,res){
 
@@ -62,7 +65,7 @@ export function createUser(req,res){
 
 
                         },
-                        "cbc-6503"
+                        process.env.JWT_SECRET
                     )
                     res.json({
                         token:token,
@@ -115,3 +118,5 @@ export async function deleteProduct(req,res) {
        return;
     }
 }
+
+// w+.

@@ -4,6 +4,9 @@ import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import userRouter from "./routers/userRouter.js";
 import productRouter from "./routers/productRouter.js";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const app=express();//run function
 
@@ -15,7 +18,7 @@ app.use(
         if(value!=null){
         const token=value.replace("Bearer ","")
         jwt.verify(token,
-        "cbc-6503",
+        process.env.JWT_SECRET,
         (err,decoded)=>{
              if(decoded==null){
                 res.status(404).json({
@@ -34,7 +37,7 @@ app.use(
     }
 )
 
-const connectionString="mongodb://admin:1234@ac-2fhe5gq-shard-00-00.8cibqm1.mongodb.net:27017,ac-2fhe5gq-shard-00-01.8cibqm1.mongodb.net:27017,ac-2fhe5gq-shard-00-02.8cibqm1.mongodb.net:27017/?ssl=true&replicaSet=atlas-3d7x22-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0"
+const connectionString=process.env.MONGO_URI
 
 mongoose.connect(connectionString)
   .then(() => {

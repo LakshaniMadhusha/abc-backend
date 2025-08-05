@@ -1,0 +1,10 @@
+.card{
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(red, green, blue, alpha);
+    transition: transform 0.2s;
+    background-color: aqua;
+}
